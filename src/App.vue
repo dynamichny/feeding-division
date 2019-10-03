@@ -1,28 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <AuthenticationScreen v-if="!isLogged" @user="user = $event; isLogged = true"/>
+    <SelectGroup v-if="!group && isLogged" :user="user" />
+    <Group v-if="group && isLogged" :groupName="group" :user="user"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AuthenticationScreen from './components/AuthenticationScreen.vue';
+import SelectGroup from './components/SelectGroup.vue';
+import Group from './components/Group.vue';
+import db from './components/firebaseInit.js';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    AuthenticationScreen,
+    SelectGroup,
+    Group,
+  },
+  data(){
+    return{
+      isLogged: false,
+      user: null,
+      group: false,
+    }
+  },
+  watch: {
+    isLogged(){
+      db.collection('users').doc(this.user.uid).onSnapshot(doc =>{
+          if(doc.exists){
+            this.group = doc.data().group;
+          } else {
+            this.group = false;
+          }
+        });
+    }
+  },
 }
 </script>
 
 <style lang="scss">
+body{
+  margin: 0;
+  padding: 0;
+
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #000000;
+  width: 100%;
+  height: 100vh;
 }
 </style>
