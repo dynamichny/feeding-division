@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <div class="post" v-for="(post, index) in posts" :key="index">
-      {{post.date.seconds}}
-    </div>
+  <div class="postsWrapper">
+    <Post v-for="(post, index) in posts" :key="index" :content="post" :animal="animal" />
   </div>
 </template>
 
 <script>
 import db from './firebaseInit.js';
+import Post from './Post.vue';
+
 export default {
   name: 'Posts',
-  props: ['groupData'],
+  components:{
+    Post
+  },
+  props: ['groupData', 'animal'],
   computed: {
     posts(){
-      while(this.groupData) return this.groupData.posts.slice(0,4);
+      while(this.groupData) return this.groupData.posts.slice(0,3).reverse();
     },
     times(){
       let posts = this.posts;
@@ -24,5 +27,11 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-
+.postsWrapper{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  z-index: -1;
+}
 </style>

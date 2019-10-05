@@ -44,6 +44,7 @@ export default {
 body{
   margin: 0;
   padding: 0;
+  background: white;
 
 }
 #app {
@@ -51,5 +52,14 @@ body{
   color: #000000;
   width: 100%;
   height: 100vh;
+}
+.switch-enter-active, .switch-leave-active{
+  transition: all 0.2s ease-in-out;
+}
+.switch-enter{
+  transform: translateX(100%);
+}
+.switch-leave-to{
+  transform: translateX(-100%);
 }
 </style>

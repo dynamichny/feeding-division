@@ -1,8 +1,9 @@
 <template>
   <div class="selgroupWrapper">
-    <div class="btn create" @click="isCreateGroup = true">Create new group</div>
-    <div class="btn join" @click="isJoinGroup = true">Send a request to join</div>
+    <div class="btn create" :class="isCreateGroup ? 'btn-yellow': ''" @click="isCreateGroup = !isCreateGroup; isJoinGroup = false">Create new group</div>
     <GroupCreate v-if="isCreateGroup" :user="user"/>
+
+    <div class="btn join" :class="isJoinGroup ? 'btn-yellow': ''" @click="isJoinGroup = !isJoinGroup; isCreateGroup = false">Send a request to join</div>
     <JoinGroup v-if="isJoinGroup" :user="user"/>
   </div>
 </template>
@@ -30,18 +31,27 @@ export default {
 <style scoped lang='scss'>
 .selgroupWrapper{
   height: 100%;
+  background: url(https://i.gifer.com/1L7Q.gif);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
 }
 .btn{
-  border: 1px solid black;
-  margin: 20px;
+  background: rgb(34, 34, 34);
+  color: white;
+  margin: 0 5% 10px;
   text-align: center;
-  padding: 25px 10px;
+  padding: 15px 10px;
   cursor: pointer;
   font-size: 20px;
 }
+.btn-yellow{
+  background: #ECBE45;
+}
+
 
 </style>

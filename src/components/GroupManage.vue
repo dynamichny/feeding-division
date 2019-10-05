@@ -1,18 +1,20 @@
 <template>
-  <div>
-    <div v-if="users.length > 0">
+  <div class="manageWrappeer">
+    <div v-if="users.length > 0" class="users">
       <p>Users</p>
       <div class="user" v-for="user in users" :key="user.uid">
         {{user.username}}
         <button class="remove" @click.prevent="removeUser(user)">Remove</button>
       </div>
     </div>
-    <div v-if="requests.length > 0">
+    <div v-if="requests.length > 0" class="requests">
       <p>Requests</p>
       <div class="request" v-for="user in requests" :key="user.uid">
         {{user.username}}
-        <button class="accept" @click.prevent="acceptUser(user)">Accept</button>
-        <button class="remove" @click.prevent="discardUser(user)">Discard</button>
+        <div class='buttons'>
+          <button class="accept" @click.prevent="acceptUser(user)">Accept</button>
+          <button class="remove" @click.prevent="discardUser(user)">Discard</button>
+        </div>
       </div>
     </div>
   </div>
@@ -72,5 +74,41 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-
+.maanageWrapper{
+  margin: 10px 0 0;
+}
+p{
+  text-decoration: underline;
+  margin: 0;
+  font-size: 18px;
+}
+.users, .requests{
+  margin: 20px 0 0;
+}
+.user{
+  margin: 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.request{
+  margin: 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.remove{
+  background: #E74C3C;
+  color: white;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 8px 12px;
+}
+.accept{
+  background: #2ECC71;
+  color: white;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 7px 12px;
+}
 </style>

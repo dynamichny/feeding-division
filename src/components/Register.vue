@@ -1,15 +1,18 @@
 <template>
   <div class="registerWrapper">
-    <button class="close" @click.prevent="$emit('close', false)">Close</button>
-    <form @submit.prevent="$emit('register', {email, password})">
+    <form @submit.prevent="sendForm()">
       <div class="inputs">
         <div class="email">
           <label for="email">Email</label>
-          <input type="email" name="email" v-model="email" required>
+          <input type="email" name="email" v-model="email" required placeholder="Email">
         </div>
         <div class="password">
           <label for="password">Password</label>
-          <input type="password" name="password" v-model="password" required>
+          <input type="password" name="password" v-model="pass" required placeholder="Password">
+        </div>
+        <div class="re-password">
+          <label for="password">Re-Password</label>
+          <input type="password" name="password" v-model="repass" required placeholder="Re-write password">
         </div>
       </div>
       <button class="submit" type="submit">Register</button>
@@ -23,118 +26,79 @@ export default {
   data(){
     return{
       email: '',
-      password: ''
+      pass: '',
+      repass: '',
     }
-  }
+  },
+  methods: {
+    sendForm(){
+      let password = this.pass === this.repass ? this.pass : false;
+      this.$emit('register', {email: this.email, password})
+    }
+  },
 };
 </script>
 
 <style scoped lang='scss'>
   .registerWrapper{
-    width: 600px;
-    height: 400px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin: auto;
-    background: white;
+    width: 100%;
+    margin:  0 auto;
     color: black;
-    z-index: 10000;
-    font-size: 2rem;
-    @media (max-width: 600px){
-      width: 100%;
-      height: 100%;
-    }
   }
-  h2{
-    text-align: center;
-    margin: 25px 0 0;
-    font-size: 25px;
-  }
-  .close{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: black;
-    background: none;
-    border: none;
-    font-family: 'Source Code Pro', monospace;
-    cursor: pointer;
-  }
+  
   form{
-    height: 80%;;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
   }
   .inputs{
-    height: 40%;
-    width: 100%;;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     div{
       margin: auto;
-      width: 75%;
+      width: 90%;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      @media (max-width: 600px){
-        flex-direction: column;
+      flex-direction: column;
       }
       input{
-        background: none;
         border: none;
         border-bottom: 2px solid black;
         padding: 15px;
         outline: none;
+        margin: 0 0 30px;
         color: black;
-        width: 50%;
+        background: white;
+        width: 100%;
+        font-size: 18px;
         transition: all 0.15s;
-        @media (max-width: 600px){
-          width: 80%;
-          margin: 10px;
-        }
+        box-sizing: border-box;
         &:focus {
           border-bottom: 5px solid black;
           box-shadow: 0px 10px 15px -15px black;
         }
       }
-    }
-  }
-  .submit{
-    width: 170px;
-    height: 50px;
-    background: black;
-    color: white;
-    border: none;
-    font-size: 2rem;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.3s;
-    outline: none;
-    &::after{
-      outline: none;
-      z-index: -1;
-      content: '';
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      border:1px solid #181818;
-      transition: transform 0.15s;
-
-    }
-    &:active{
-      transform: translateX(-10px) translateY(10px);
-      &::after{
-        transform: translateX(10px) translateY(-10px);
+      label{
+        margin: 0;
+        color: white;
       }
     }
-  }
+.submit{
+  width: 90%;
+  height: 50px;
+  padding: 5px;
+  background: black;
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  margin: 0 0 20px;
+}
 </style>

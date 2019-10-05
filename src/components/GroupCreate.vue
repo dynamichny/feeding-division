@@ -1,11 +1,9 @@
 <template>
   <div class="groupcreateWrapper">
     <form @submit.prevent="createGroup()">
-      <label for="groupName" >Group name</label>
-      <input type="text" name="groupName" v-model="name">
-      <label for="petName">Animal</label>
-      <input type="text" name="petName" v-model="animal">
-      <input type="submit" value="Create">
+      <input type="text" class="input" name="groupName" v-model="name" placeholder="Group name">
+      <input type="text" class="input" name="petName" v-model="animal" placeholder="Animal">
+      <input type="submit" class="submit" value="Create">
     </form>
   </div>
 </template>
@@ -54,24 +52,45 @@ export default {
 
 <style scoped lang='scss'>
 .groupcreateWrapper{
-  position: fixed;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   width: 100vw;
-  height: 100vh;
-  background: white;
 }
 form{
   height: 100%;
-  width: 75%;
+  width: 85%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  input{
-    margin: 0 0 35px; 
+  align-items: center;
+}
+.input{
+  border: none;
+  border-bottom: 2px solid black;
+  padding: 15px;
+  outline: none;
+  margin: 10px auto 10px;
+  color: black;
+  background: white;
+  width: 100%;
+  font-size: 18px;
+  transition: all 0.15s;
+  box-sizing: border-box;
+  &:focus {
+    border-bottom: 5px solid black;
+    box-shadow: 0px 10px 15px -15px black;
   }
+}
+.submit{
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  background: black;
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  margin: 0 0 20px;
 }
 </style>

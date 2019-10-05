@@ -1,10 +1,13 @@
 <template>
   <div class="enteringScreen-wrapper">
-    <div class="btn login" @click="isLogin = true">Login</div>
-    <div class="btn register" @click="isRegister = true">Register</div>
-
-    <Login v-if="isLogin" @close="isLogin = false" @login="loginData = $event"/>
-    <Register v-if="isRegister" @close="isRegister = false" @register="registerData = $event"/>
+    <h1>Feeding Division</h1>
+    <transition name="switch">
+      <Login  @login="loginData = $event" v-if="isLogin"/>
+    </transition>
+    <transition name="switch">
+      <Register v-if="isRegister"  @register="registerData = $event"/>
+    </transition>
+    <div class="btn" @click="isRegister = !isRegister; isLogin = !isLogin">Switch to {{goTo}}</div>
   </div>
 </template>
 
@@ -21,7 +24,7 @@ export default {
   },
   data(){
     return{
-      isLogin: false,
+      isLogin: true,
       isRegister: false,
       user: null,
       loginData: null,
@@ -36,11 +39,26 @@ export default {
         }).catch(error => alert(error));
     },
     registerData(){
-      firebase.auth().createUserWithEmailAndPassword(this.registerData.email, this.registerData.password)
-        .catch(error => alert(error))
+      if(!!this.registerData.password){
+        firebase.auth().createUserWithEmailAndPassword(this.registerData.email, this.registerData.password)
+          .then(()=>{
+            firebase.auth().signInWithEmailAndPassword(this.registerData.email, this.registerData.password)
+            .then(result=>{
+              this.user = result.user;
+            });
+          })
+          .catch(error => alert(error))
+      } else{
+        alert("Passwords aren't the same.")
+      }
     },
     user(){
       this.$emit('user', this.user)
+    }
+  },
+  computed:{
+    goTo(){
+      return this.isLogin  ? 'Register' : 'Login';
     }
   },
 };
@@ -48,17 +66,47 @@ export default {
 
 <style scoped lang='scss'>
 .enteringScreen-wrapper{
+  background: url(https://i.gifer.com/1L7Q.gif);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 80%;
+  height: 100%;
 }
 .btn{
-  border: 1px solid black;
-  margin: 20px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  background: rgb(34, 34, 34);
+  color: white;
+  margin: 0 5% 10px;
   text-align: center;
-  padding: 25px 10px;
+  padding: 15px 10px;
   cursor: pointer;
   font-size: 20px;
 }
+h1{
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 0px 1px black;
+}
+.switch-enter-active, .switch-leave-active{
+  transition: all 0.5s ease-in-out;
+}
+.switch-enter{
+  transform: translateX(100%);
+  opacity: 0;
+}
+.switch-leave-to{
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
 </style>
