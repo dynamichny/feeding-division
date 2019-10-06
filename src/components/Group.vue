@@ -6,8 +6,8 @@
       <div class="icons">
         <div class="icon" v-for="(username, index) in usernames" :key="index">{{username}}</div> 
       </div>
-      <button @click.prevent="isManage = !isManage" v-if="isAdmin" class="manage">{{manage}}</button>
-      <GroupManage v-if="isManage" :groupData="groupData" :groupName="groupName" />
+      <button @click.prevent="isManage = !isManage" class="manage">{{manage}}</button>
+      <GroupManage v-if="isManage" :groupData="groupData" :groupName="groupName" :currentUser="user" :isAdmin="isAdmin" />
     </div>
 
     <Posts :groupData="groupData" :animal="animal" />
@@ -91,6 +91,7 @@ export default {
   outline: none;
   font-size: 18px;
   float: right;
+  margin: 0 0 10px;
 }
 h1{
   margin: 0;

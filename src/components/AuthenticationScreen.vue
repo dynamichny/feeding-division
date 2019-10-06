@@ -77,12 +77,12 @@ export default {
 }
 .btn{
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   left: 0;
   right: 0;
   background: rgb(34, 34, 34);
   color: white;
-  margin: 0 5% 10px;
+  margin: 0 0 0;
   text-align: center;
   padding: 15px 10px;
   cursor: pointer;

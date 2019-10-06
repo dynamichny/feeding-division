@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <AuthenticationScreen v-if="!isLogged" @user="user = $event; isLogged = true"/>
+    <Logout v-if="isLogged" @isLogged="isLogged = $event"/>
     <SelectGroup v-if="!group && isLogged" :user="user" />
     <Group v-if="group && isLogged" :groupName="group" :user="user"/>
   </div>
@@ -9,6 +10,7 @@
 <script>
 import AuthenticationScreen from './components/AuthenticationScreen.vue';
 import SelectGroup from './components/SelectGroup.vue';
+import Logout from './components/Logout.vue';
 import Group from './components/Group.vue';
 import db from './components/firebaseInit.js';
 
@@ -18,6 +20,7 @@ export default {
     AuthenticationScreen,
     SelectGroup,
     Group,
+    Logout
   },
   data(){
     return{
@@ -28,13 +31,15 @@ export default {
   },
   watch: {
     isLogged(){
-      db.collection('users').doc(this.user.uid).onSnapshot(doc =>{
-          if(doc.exists){
-            this.group = doc.data().group;
-          } else {
-            this.group = false;
-          }
-        });
+      if(this.isLogged){
+        db.collection('users').doc(this.user.uid).onSnapshot(doc =>{
+            if(doc.exists){
+              this.group = doc.data().group;
+            } else {
+              this.group = false;
+            }
+          });
+      }
     }
   },
 }
