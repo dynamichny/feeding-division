@@ -9,7 +9,6 @@
 
 <script>
 import db from './firebaseInit.js';
-import has from 'lodash.has'
 
 export default {
   name: 'JoinGroup',

@@ -23,7 +23,7 @@ export default {
 
 <style scoped lang='scss'>
 .btn{
-  position: absolute;
+  position: fixed;
   bottom: 35px;
   left: 0;
   right: 0;

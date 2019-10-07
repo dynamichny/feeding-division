@@ -25,7 +25,6 @@
 
 <script>
 import db from './firebaseInit.js';
-import has from 'lodash.has'
 export default {
   name: 'GroupManage',
   props: ['groupData', 'groupName', 'currentUser', 'isAdmin'],
@@ -135,6 +134,7 @@ p{
   border: 2px solid white;
   border-radius: 15px;
   padding: 8px 12px;
+  cursor: pointer;
 }
 .accept{
   background: #2ECC71;
@@ -142,6 +142,7 @@ p{
   border: 2px solid white;
   border-radius: 15px;
   padding: 7px 12px;
+  cursor: pointer;
 }
 .exit{
   margin: 25px 0 0;
@@ -152,6 +153,7 @@ p{
     border: 2px solid white;
     border-radius: 15px;
     padding: 8px 12px;
+    cursor: pointer;
   }
 }
 </style>

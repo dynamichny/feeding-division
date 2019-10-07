@@ -1,7 +1,7 @@
 <template>
   <div class='postWrapper'>
-    <div class="icon">{{username[0].toUpperCase()}}</div>
-    <p class="text">{{animal}} was fed <span class="time">{{time}}</span> ago by <span class="name">{{username}}</span>.</p>
+    <div class="icon" :style="{ backgroundColor: letterColor }">{{userLetter}}</div>
+    <p class="text">{{animal}} was fed <span class="time">{{time}}</span> ago by <span class="name" :style="{ color: letterColor}">{{username}}</span>.</p>
     
   </div>
 </template>
@@ -27,6 +27,12 @@ export default {
     },
     username(){
       return this.content.username.match(/[a-zA-Z0-9_.+-]+/g)[0];
+    },
+    userLetter(){
+      return this.username[0].toUpperCase();
+    },
+    letterColor(){
+      return `hsl(${(this.userLetter.charCodeAt(0) * 3649149)%360}, 50%, 50%)`;
     }
   },
   mounted(){
@@ -43,29 +49,29 @@ export default {
 
 <style scoped lang='scss'>
 .postWrapper{
+  z-index: 0;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: start;
   margin: 20px 5%;
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 3px 3px 10px rgb(184, 184, 184);
+  box-shadow: 0px 0px 10px rgb(184, 184, 184);
   overflow: auto;
-  max-height: 60vh;
 }
 p{
   margin: 0 0 0 10px;
 }
 .name{
   color: #ECBE45;
+  font-weight: bold;
 }
 .time{
   font-weight: bold;
 }
 .icon{
   padding: 8px 12px;
-  background: rgb(151, 200, 255);
-  margin: 10px auto;
+  margin: 10px 20px;
   border-radius: 50%;
   display: flex;
   justify-content: center;

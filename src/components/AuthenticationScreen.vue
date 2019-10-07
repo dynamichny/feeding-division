@@ -66,6 +66,7 @@ export default {
 
 <style scoped lang='scss'>
 .enteringScreen-wrapper{
+  overflow: hidden;
   background: url(https://i.gifer.com/1L7Q.gif);
   background-position: center center;
   background-size: cover;

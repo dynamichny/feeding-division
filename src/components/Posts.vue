@@ -1,6 +1,8 @@
 <template>
-  <div class="postsWrapper">
-    <Post v-for="(post, index) in posts" :key="index" :content="post" :animal="animal" />
+  <div>
+    <div class="postsWrapper" ref="wrapper" :style="{ top: infoHeight }">
+      <Post v-for="(post, index) in posts" :key="index" :content="post" :animal="animal" />
+    </div>
   </div>
 </template>
 
@@ -13,16 +15,20 @@ export default {
   components:{
     Post
   },
-  props: ['groupData', 'animal'],
+  props: ['groupData', 'animal', 'groupInfo'],
   computed: {
     posts(){
-      while(this.groupData) return this.groupData.posts.slice(0,3).reverse();
+      while(this.groupData) return this.groupData.posts.reverse();
+
     },
-    times(){
-      let posts = this.posts;
-      console.log(posts)
+    infoHeight(){
+      while(this.groupInfo) return `${this.groupInfo.offsetHeight}px`;
     }
   },
+  updated(){
+    let container = this.$refs.wrapper;
+    container.scrollTop = container.scrollHeight;
+  }
 };
 </script>
 
@@ -32,6 +38,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 100px;
-  z-index: -1;
-}
+  height: auto;
+  overflow: auto;
+  z-index: 0;
+  }
 </style>

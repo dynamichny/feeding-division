@@ -1,16 +1,16 @@
 <template>
   <div class="groupWrapper">
 
-    <div class="groupInfo">
+    <div class="groupInfo" ref="info">
       <h1>{{groupName}}</h1>
       <div class="icons">
-        <div class="icon" v-for="(username, index) in usernames" :key="index">{{username}}</div> 
+        <div class="icon" v-for="(username, index) in usernames" :key="index" :style="{ backgroundColor: letterColor(username)}">{{username}}</div> 
       </div>
       <button @click.prevent="isManage = !isManage" class="manage">{{manage}}</button>
       <GroupManage v-if="isManage" :groupData="groupData" :groupName="groupName" :currentUser="user" :isAdmin="isAdmin" />
     </div>
 
-    <Posts :groupData="groupData" :animal="animal" />
+    <Posts :groupData="groupData" :animal="animal" :groupInfo="$refs.info"/>
     <NewPost :groupName="groupName" :user="user" />
   </div>
 </template>
@@ -61,8 +61,13 @@ export default {
   computed: {
     manage(){
       return this.isManage ? 'Close' : 'Manage';
-    }
+    },
   },
+  methods: {
+    letterColor(user){
+      return `hsl(${(user.charCodeAt(0) * 3649149)%360}, 50%, 50%)`;
+    }
+  }
 };
 </script>
 
@@ -73,13 +78,15 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
 
 }
 .groupInfo{
   background: white;
-  padding: 5%;
+  padding: 15px 5%;
   overflow: auto;
-  z-index: 100000;
+  z-index: 999999;
   max-height: 40vh;
   box-shadow: 0px 1px 2px gray;
   transition: all .3s;
@@ -91,10 +98,11 @@ export default {
   outline: none;
   font-size: 18px;
   float: right;
-  margin: 0 0 10px;
+  margin: 0 0;
+  cursor: pointer;
 }
 h1{
-  margin: 0;
+  margin: 0 calc(60px + 4%) 0 0;
 }
 .icon{
   width: 30px;
