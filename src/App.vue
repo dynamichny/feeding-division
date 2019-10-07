@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <AuthenticationScreen v-if="!isLogged" @user="user = $event; isLogged = true"/>
+    <AuthenticationScreen v-if="!isLogged" @currentUser="currentUser = $event; isLogged = true"/>
     <Logout v-if="isLogged" @isLogged="isLogged = $event"/>
-    <SelectGroup v-if="!group && isLogged" :user="user" />
-    <Group v-if="group && isLogged" :groupName="group" :user="user"/>
+    <SelectGroup v-if="!groupName && isLogged" :currentUser="currentUser" />
+    <Group v-if="groupName && isLogged" :groupName="groupName" :currentUser="currentUser"/>
   </div>
 </template>
 
@@ -25,18 +25,18 @@ export default {
   data(){
     return{
       isLogged: false,
-      user: null,
-      group: false,
+      currentUser: null,
+      groupName: false,
     }
   },
   watch: {
     isLogged(){
       if(this.isLogged){
-        db.collection('users').doc(this.user.uid).onSnapshot(doc =>{
+        db.collection('users').doc(this.currentUser.uid).onSnapshot(doc =>{
             if(doc.exists){
-              this.group = doc.data().group;
+              this.groupName = doc.data().group;
             } else {
-              this.group = false;
+              this.groupName = false;
             }
           });
       }

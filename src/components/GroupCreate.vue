@@ -14,7 +14,7 @@ import firebase from 'firebase';
 
 export default {
   name: 'GroupCreate',
-  props: ['user'],
+  props: ['currentUser'],
   data(){
     return{
       name: null,
@@ -29,15 +29,15 @@ export default {
           db.collection('groups').doc(this.name).set({
             animal: this.animal,
             admin: {
-              username: this.user.email, uid: this.user.uid
+              username: this.currentUser.email, uid: this.currentUser.uid
               },
             users: [],
             requests: [],
             posts: [],
           }).then(()=>{
-            db.collection('users').doc(this.user.uid).set({
+            db.collection('users').doc(this.currentUser.uid).set({
               group: this.name,
-              username: this.user.email,
+              username: this.currentUser.email,
             }).then(()=> this.groupCreated = true);
           });
         } else {

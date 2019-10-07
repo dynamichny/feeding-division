@@ -145,8 +145,8 @@ p{
   cursor: pointer;
 }
 .exit{
-  margin: 25px 0 0;
   button{
+    margin: 25px 0 0;
     width: 100%;
     background: #E74C3C;
     color: white;

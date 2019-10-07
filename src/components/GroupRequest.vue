@@ -11,8 +11,8 @@
 import db from './firebaseInit.js';
 
 export default {
-  name: 'JoinGroup',
-  props: ['user'],
+  name: 'GroupRequest',
+  props: ['currentUser'],
   data(){
     return{
       name: '',
@@ -24,15 +24,15 @@ export default {
       .then(result =>{
         if(result.exists) {
           let requests = result.data().requests;
-          if(requests.findIndex(request => request.uid == this.user.uid) == -1){
-            requests.push({ username: this.user.email, uid: this.user.uid });
+          if(requests.findIndex(request => request.uid == this.currentUser.uid) == -1){
+            requests.push({ username: this.currentUser.email, uid: this.currentUser.uid });
             db.collection('groups').doc(this.name).update({
               requests
-            });
-            alert(`Request sent to: ${this.name}`)
+            }).then(() => alert(`Request sent to: ${this.name}`));
+            
           } 
         } else {
-          alert("Group with this name does'nt exist.");
+          alert("Group with this name doesn't exist.");
         }
       });
     }

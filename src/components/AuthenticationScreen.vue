@@ -26,7 +26,7 @@ export default {
     return{
       isLogin: true,
       isRegister: false,
-      user: null,
+      currentUser: null,
       loginData: null,
       registerData: null,
     }
@@ -35,7 +35,7 @@ export default {
     loginData(){
       firebase.auth().signInWithEmailAndPassword(this.loginData.email, this.loginData.password)
         .then(result=>{
-          this.user = result.user;
+          this.currentUser = result.user;
         }).catch(error => alert(error));
     },
     registerData(){
@@ -44,7 +44,7 @@ export default {
           .then(()=>{
             firebase.auth().signInWithEmailAndPassword(this.registerData.email, this.registerData.password)
             .then(result=>{
-              this.user = result.user;
+              this.currentUser = result.user;
             });
           })
           .catch(error => alert(error))
@@ -52,8 +52,8 @@ export default {
         alert("Passwords aren't the same.")
       }
     },
-    user(){
-      this.$emit('user', this.user)
+    currentUser(){
+      this.$emit('currentUser', this.currentUser);
     }
   },
   computed:{
@@ -83,7 +83,7 @@ export default {
   right: 0;
   background: rgb(34, 34, 34);
   color: white;
-  margin: 0 0 0;
+  margin: 0 5px 5px;
   text-align: center;
   padding: 15px 10px;
   cursor: pointer;
@@ -97,6 +97,15 @@ h1{
   text-align: center;
   color: white;
   text-shadow: 2px 0px 1px black;
+  @media(min-width: 600px){
+    font-size: 60px;
+  }
+  @media(max-width: 600px){
+    font-size: 50px;
+  }
+  @media(max-width: 500px){
+    font-size: 40px;
+  }
 }
 .switch-enter-active, .switch-leave-active{
   transition: all 0.5s ease-in-out;

@@ -7,11 +7,11 @@
         <div class="icon" v-for="(username, index) in usernames" :key="index" :style="{ backgroundColor: letterColor(username)}">{{username}}</div> 
       </div>
       <button @click.prevent="isManage = !isManage" class="manage">{{manage}}</button>
-      <GroupManage v-if="isManage" :groupData="groupData" :groupName="groupName" :currentUser="user" :isAdmin="isAdmin" />
+      <GroupManage v-if="isManage" :groupData="groupData" :groupName="groupName" :currentUser="currentUser" :isAdmin="isAdmin" />
     </div>
 
     <Posts :groupData="groupData" :animal="animal" :groupInfo="$refs.info"/>
-    <NewPost :groupName="groupName" :user="user" />
+    <NewPost :groupName="groupName" :currentUser="currentUser" />
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
     Posts,
     NewPost,
   },
-  props: ['groupName', 'user'],
+  props: ['groupName', 'currentUser'],
   data(){
     return{
       groupData: null,
@@ -45,7 +45,7 @@ export default {
     db.collection('groups').doc(this.groupName).get()
       .then(response =>{
         this.animal = response.data().animal;
-        if(response.data().admin.uid == this.user.uid) {
+        if(response.data().admin.uid == this.currentUser.uid) {
           this.isAdmin = true;
           return;
         }

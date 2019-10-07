@@ -1,28 +1,28 @@
 <template>
   <div class="selgroupWrapper">
-    <div class="btn create" :class="isCreateGroup ? 'btn-yellow': ''" @click="isCreateGroup = !isCreateGroup; isJoinGroup = false">Create new group</div>
-    <GroupCreate v-if="isCreateGroup" :user="user"/>
+    <div class="btn create" :class="isCreateGroup ? 'btn-yellow': ''" @click="isCreateGroup = !isCreateGroup; isGroupRequest = false">Create new group</div>
+    <GroupCreate v-if="isCreateGroup" :currentUser="currentUser"/> 
 
-    <div class="btn join" :class="isJoinGroup ? 'btn-yellow': ''" @click="isJoinGroup = !isJoinGroup; isCreateGroup = false">Send a request to join</div>
-    <JoinGroup v-if="isJoinGroup" :user="user"/>
+    <div class="btn join" :class="isGroupRequest ? 'btn-yellow': ''" @click="isGroupRequest = !isGroupRequest; isCreateGroup = false">Send a request to join</div>
+    <GroupRequest v-if="isGroupRequest" :currentUser="currentUser"/>
   </div>
 </template>
 
 <script>
 import GroupCreate from './GroupCreate.vue'
-import JoinGroup from './JoinGroup.vue'
+import GroupRequest from './GroupRequest.vue'
 
 export default {
   name: 'SelectGroup',
   components: {
     GroupCreate,
-    JoinGroup,
+    GroupRequest,
   },
-  props: ['user'],
+  props: ['currentUser'],  
   data(){
     return{
       isCreateGroup: false,
-      isJoinGroup: false,   
+      isGroupRequest: false,   
     }
   }
 };
