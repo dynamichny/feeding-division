@@ -3,25 +3,27 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from "firebase";
 export default {
-  name: 'Logout',
+  name: "Logout",
   methods: {
-    logout(){
-      firebase.auth().signOut()
-      .then(result => {
-        this.$emit('isLogged', false)
-      });
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(result => {
+          this.$emit("isLogged", false);
+        });
     }
-  },
+  }
 };
 </script>
 
 <style scoped lang='scss'>
-button{
+button {
   position: absolute;
   top: 15px;
-  right:5%;
+  right: 5%;
   z-index: 99999999;
   background: #222222;
   color: white;

@@ -7,25 +7,24 @@
 </template>
 
 <script>
-import db from './firebaseInit.js';
-import Post from './Post.vue';
+import db from "../firebaseInit.js";
+import Post from "./Post.vue";
 
 export default {
-  name: 'Posts',
-  components:{
+  name: "Posts",
+  components: {
     Post
   },
-  props: ['groupData', 'animal', 'groupInfo'],
+  props: ["groupData", "animal", "groupInfo"],
   computed: {
-    posts(){
-      while(this.groupData) return this.groupData.posts.reverse();
-
+    posts() {
+      while (this.groupData) return this.groupData.posts.reverse();
     },
-    infoHeight(){
-      while(this.groupInfo) return `${this.groupInfo.offsetHeight}px`;
+    infoHeight() {
+      while (this.groupInfo) return `${this.groupInfo.offsetHeight}px`;
     }
   },
-  updated(){
+  updated() {
     let container = this.$refs.wrapper;
     container.scrollTop = container.scrollHeight;
   }
@@ -33,7 +32,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.postsWrapper{
+.postsWrapper {
   position: absolute;
   left: 0;
   right: 0;
@@ -41,5 +40,5 @@ export default {
   height: auto;
   overflow: auto;
   z-index: 0;
-  }
+}
 </style>
