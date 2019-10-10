@@ -9,26 +9,14 @@ export default {
   name: "NewPost",
   props: ["groupName", "currentUser"],
   methods: {
-    commitFeeding() {
-      db.collection("groups")
-        .doc(this.groupName)
-        .get()
-        .then(doc => {
-          const posts = doc.data().posts;
-          axios
-            .get("http://worldclockapi.com/api/json/est/now") //clock api so every device have the same date
-            .then(response => {
-              let date = Number(response.data.currentFileTime);
-              posts.unshift({
-                date,
-                uid: this.currentUser.uid,
-                username: this.currentUser.email
-              });
-              db.collection("groups")
-                .doc(this.groupName)
-                .update({ posts });
-            });
-        });
+    commitFeeding(){
+      db.collection('groups').doc(this.groupName).get()
+      .then(doc =>{
+        const posts = doc.data().posts;
+        const date = new Date();
+        posts.unshift({date, uid: this.currentUser.uid, username: this.currentUser.email});
+        db.collection('groups').doc(this.groupName).update({posts});
+      });
     }
   }
 };

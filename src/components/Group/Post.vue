@@ -10,51 +10,41 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
-  name: "Post",
-  props: ["content", "animal"],
-  data() {
-    return {
+  name: 'Post',
+  props: ['content', 'animal'],
+  data(){
+    return{
       timeNow: null,
-      setTime: ""
-    };
-  },
-  computed: {
-    time() {
-      let timeNow = this.timeNow;
-      let seconds_num = Math.round(-(this.content.date - timeNow) / 10000000);
-      let hours = Math.floor(seconds_num / 3600);
-      let minutes = Math.floor((seconds_num - hours * 3600) / 60);
-      let seconds = seconds_num - hours * 3600 - minutes * 60;
-      return hours > 0
-        ? `${hours}h ${minutes}m`
-        : minutes > 0
-        ? `${minutes}min`
-        : `${seconds}s`;
-    },
-    username() {
-      return this.content.username.match(/[a-zA-Z0-9_.+-]+/g)[0];
-    },
-    userLetter() {
-      return this.username[0].toUpperCase();
-    },
-    letterColor() {
-      return `hsl(${(this.userLetter.charCodeAt(0) * 3649149) %
-        360}, 50%, 50%)`;
+      setTime: '',
     }
   },
-  mounted() {
-    axios
-      .get("http://worldclockapi.com/api/json/est/now") //clock api so every device have the same date
-      .then(response => {
-        this.timeNow = Number(response.data.currentFileTime);
-        this.setTime = setInterval(() => {
-          this.timeNow += 10000000;
-        }, 1000);
-      });
+  computed: {
+    time(){
+      let timeNow = this.timeNow;
+      let seconds_num = -(this.content.date.seconds - Math.round(timeNow/1000));
+      let hours = Math.floor(seconds_num / 3600);
+      let minutes = Math.floor((seconds_num - (hours * 3600)) / 60);
+      let seconds = seconds_num - (hours * 3600) - (minutes * 60);
+      return  hours > 0 ? `${hours}h ${minutes}m` : minutes > 0 ? `${minutes}min` : `${seconds}s`;
+    },
+    username(){
+      return this.content.username.match(/[a-zA-Z0-9_.+-]+/g)[0];
+    },
+    userLetter(){
+      return this.username[0].toUpperCase();
+    },
+    letterColor(){
+      return `hsl(${(this.userLetter.charCodeAt(0) * 3649149)%360}, 50%, 50%)`;
+    }
   },
-  beforeDestroy() {
+  mounted(){
+    this.timeNow = Date.now();
+    this.setTime = setInterval(()=>{
+      this.timeNow = Date.now()
+    },1000);
+  },
+  beforeDestroy(){
     clearInterval(this.setTime);
   }
 };
